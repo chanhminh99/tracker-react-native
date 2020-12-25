@@ -14,6 +14,7 @@ import ResolveAuthScreen from './src/screens/ResolveAuthScreen'
 
 //Context
 import {Provider as AuthProvider} from './src/context/AuthContext'
+import {Provider as LocationProvider} from './src/context/Locationcontext'
 
 //Navigator
 import {setNavigator} from './src/navigationRef'
@@ -50,8 +51,10 @@ const App = createAppContainer(switchNavigation)
 
 export default () => {
   return (
-    <AuthProvider>
-      <App ref={(navigation) => setNavigator(navigation)} />
-    </AuthProvider>
+    <LocationProvider>
+      <AuthProvider>
+        <App ref={(navigation) => setNavigator(navigation)} />
+      </AuthProvider>
+    </LocationProvider>
   )
 }
