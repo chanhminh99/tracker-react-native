@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {StyleSheet} from 'react-native'
 import {Text, Button, Input} from 'react-native-elements'
+import {NavigationEvents} from 'react-navigation'
 import Spacer from './Spacer'
 
 const AuthForm = ({headerText, errorMessage, onSubmit, submitButtonText}) => {
@@ -9,6 +10,12 @@ const AuthForm = ({headerText, errorMessage, onSubmit, submitButtonText}) => {
 
   return (
     <>
+      <NavigationEvents
+        onWillFocus={() => {
+          setEmail('')
+          setPassword('')
+        }}
+      />
       <Spacer>
         <Text h3>{headerText}</Text>
       </Spacer>

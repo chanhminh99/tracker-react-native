@@ -2,22 +2,20 @@ import React, {useContext} from 'react'
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native'
-import {Text} from 'react-native-elements'
 import AuthForm from '../components/AuthForm'
-
-import Spacer from '../components/Spacer'
+import NavLink from '../components/NavLink'
+import {NavigationEvents} from 'react-navigation'
 
 //Context
 import {Context as AuthContext} from '../context/AuthContext'
 
-const SignupScreen = ({navigation}) => {
-  const {state, signup} = useContext(AuthContext)
+const SignupScreen = () => {
+  const {state, signup, clearErrormessage} = useContext(AuthContext)
 
   return (
     <KeyboardAvoidingView
@@ -25,19 +23,18 @@ const SignupScreen = ({navigation}) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
+          <NavigationEvents
+            onWillFocus={() => {
+              clearErrormessage()
+            }}
+          />
           <AuthForm
             headerText='Sign up for Tracker'
             errorMessage={state.errorMessage}
             submitButtonText='Sign Up'
             onSubmit={({email, password}) => signup({email, password})}
           />
-          <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
-            <Spacer>
-              <Text style={styles.link}>
-                Already have an account? Sign in instead
-              </Text>
-            </Spacer>
-          </TouchableOpacity>
+          <NavLink routeName='Signin' text='Already have an account? Sign in' />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -55,9 +52,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center'
-  },
-  link: {
-    color: 'blue'
   }
 })
 
