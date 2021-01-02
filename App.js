@@ -14,8 +14,8 @@ import ResolveAuthScreen from './src/screens/ResolveAuthScreen'
 
 //Context
 import {Provider as AuthProvider} from './src/context/AuthContext'
-import {Provider as LocationProvider} from './src/context/Locationcontext'
-
+import {Provider as LocationProvider} from './src/context/LocationContext'
+import {Provider as TrackProvider} from './src/context/TrackContext'
 //Navigator
 import {setNavigator} from './src/navigationRef'
 
@@ -43,7 +43,18 @@ const switchNavigation = createSwitchNavigator(
     )
   },
   {
-    initialRouteName: 'ResolveAuth'
+    initialRouteName: 'ResolveAuth',
+    defaultNavigationOptions: {
+      cardStyle: {backgroundColor: '#000'},
+      headerStyle: {
+        backgroundColor: '#000'
+      },
+      // headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#fff'
+      }
+    }
   }
 )
 
@@ -51,10 +62,12 @@ const App = createAppContainer(switchNavigation)
 
 export default () => {
   return (
-    <LocationProvider>
-      <AuthProvider>
-        <App ref={(navigation) => setNavigator(navigation)} />
-      </AuthProvider>
-    </LocationProvider>
+    <TrackProvider>
+      <LocationProvider>
+        <AuthProvider>
+          <App ref={(navigation) => setNavigator(navigation)} />
+        </AuthProvider>
+      </LocationProvider>
+    </TrackProvider>
   )
 }
